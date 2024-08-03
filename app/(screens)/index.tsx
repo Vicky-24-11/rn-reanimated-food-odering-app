@@ -7,6 +7,7 @@ import Colors from '@/constants/Colors';
 import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import { useRouter } from 'expo-router';
 import Recipes from '@/components/Recipes';
+import { ZoomInEasyUp, ZoomOutEasyUp } from 'react-native-reanimated'
 
 
 const welcomeScreen = () => {
@@ -29,7 +30,8 @@ const welcomeScreen = () => {
 
     return (
         <Layout safeAreaBgColor="#F7d560">
-            <View style={styles.container} >
+            <Animated.View entering={ZoomInEasyUp.duration(400)}
+                exiting={ZoomOutEasyUp.duration(300)} style={styles.container} >
                 <Animated.View style={[styles.imageContainer1, { padding: ring1padding }]} >
                     <Animated.View style={[styles.imageContainer2, { padding: ring2padding }]} >
                         <Image source={require("@/assets/images/welcomeImage.png")} style={styles.image} />
@@ -40,7 +42,7 @@ const welcomeScreen = () => {
                     <Text style={styles.title} >yummy</Text>
                     <Text style={{ fontSize: hp(2) }}>Food is always right</Text>
                 </View>
-            </View>
+            </Animated.View>
         </Layout>
     )
 }
