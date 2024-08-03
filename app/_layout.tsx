@@ -52,8 +52,12 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack initialRouteName='(screens)/index' >
-        <Stack.Screen name="(screens)/homeScreen" options={{ headerShown: false }} />
-        <Stack.Screen name="(screens)/index" options={{ headerShown: false }} />
+        <Stack.Screen name="(screens)/homeScreen" options={{ headerShown: false, }} />
+        <Stack.Screen name="(screens)/index" options={{
+          headerShown: false,
+
+        }} />
+        <Stack.Screen name='(screens)/recipeDetailScreen' options={{ headerShown: false, }} />
       </Stack>
     </ThemeProvider>
   );

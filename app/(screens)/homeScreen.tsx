@@ -9,10 +9,12 @@ import { BellIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline'
 import Categories from '@/components/Categories';
 import axios from 'axios';
 import Recipes from '@/components/Recipes';
+import { ZoomInEasyUp, ZoomOutEasyUp } from 'react-native-reanimated'
+
 
 const homeScreen = () => {
 
-    const [activeCategory, setActiveCategory] = useState("Beef")
+    const [activeCategory, setActiveCategory] = useState("Dessert")
     const [categories, setCategories] = useState([])
     const [meals, setMeals] = useState([])
 
@@ -20,6 +22,12 @@ const homeScreen = () => {
         getCategories()
         getRecipes()
     }, [])
+
+    const handleCategoryChange = (category: any) => {
+        getRecipes(category)
+        setActiveCategory(category)
+        setMeals([])
+    }
 
     const getCategories = async () => {
         try {
@@ -55,7 +63,6 @@ const homeScreen = () => {
 
                 console.error("Unable to fetch data");
 
-
             }
 
         } catch (error) {
@@ -63,7 +70,7 @@ const homeScreen = () => {
         }
     }
 
-    //    const handleCategoryChange = category()
+    // console.log("meals -----> ", meals)
 
 
     return (
@@ -74,7 +81,8 @@ const homeScreen = () => {
                 <BellIcon color={Colors.grey} />
             </View>
             {/* Greeting Block */}
-            <View>
+            <Animated.View entering={ZoomInEasyUp.duration(300)}
+                exiting={ZoomOutEasyUp.duration(300)}>
                 <Text style={{ fontSize: hp(1.7), marginVertical: hp(2) }} >Hello Vikas Pandey</Text>
                 <View>
                     <Text style={{ fontSize: hp(3.8), fontWeight: "500" }} >Make your own food</Text>
@@ -83,7 +91,7 @@ const homeScreen = () => {
                     <Text style={{ fontSize: hp(3.8), fontWeight: "500" }} >Stay at </Text>
                     <Text style={{ fontSize: hp(3.8), color: "#ffd700", fontWeight: "500" }} >home </Text>
                 </View>
-            </View>
+            </Animated.View>
             {/* Search Bar */}
             <View style={styles.searchInputBlock} >
                 <TextInput
@@ -96,8 +104,7 @@ const homeScreen = () => {
                     <MagnifyingGlassIcon strokeWidth={3} size={hp(2.5)} color="gray" />
                 </View>
             </View>
-            {categories.length > 0 && <Categories activeCategory={activeCategory} setActiveCategory={setActiveCategory} categories={categories} />}
-
+            {categories.length > 0 && <Categories activeCategory={activeCategory} handleCategoryChange={handleCategoryChange} categories={categories} />}
             <Recipes categories={categories} meals={meals} />
         </Layout>
     )
